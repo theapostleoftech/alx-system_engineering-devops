@@ -1,0 +1,1 @@
+This is repository containig exercises on Shell Basics
