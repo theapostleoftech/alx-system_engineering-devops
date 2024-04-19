@@ -6,9 +6,7 @@ package { $package:
     provider => 'pip3',
 }
 
-
-$package = 'werkzeug'
-package { $package:
+package { werkzeug:
     ensure   => '2.1.1',
     provider => 'pip3',
 }
