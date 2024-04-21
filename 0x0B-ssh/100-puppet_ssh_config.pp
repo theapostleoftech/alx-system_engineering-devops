@@ -1,3 +1,5 @@
+# Configuration file to login without PasswordAuthentication
+
 file { '/home/vagrant/.ssh/config':
   ensure  => file,
   owner   => 'vagrant',
