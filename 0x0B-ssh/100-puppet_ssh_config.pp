@@ -1,21 +1,17 @@
-# Configure the SSH client configuration file
-file { '/home/ubuntu/.ssh/config':
-  ensure => 'file',
-  owner  => 'ubuntu',
-  group  => 'ubuntu',
-  mode   => '0600',
+file { '/home/vagrant/.ssh/config':
+  ensure  => file,
+  owner   => 'vagrant',
+  group   => 'vagrant',
+  mode    => '0600',
+  content => "Host *\n  IdentityFile ~/.ssh/school\n  PasswordAuthentication no\n",
 }
 
-# Disable password authentication
 file_line { 'Turn off passwd auth':
-  ensure => present,
-  path   => '/home/ubuntu/.ssh/config',
-  line   => 'PasswordAuthentication no',
+  path => '/home/vagrant/.ssh/config',
+  line => '  PasswordAuthentication no',
 }
 
-# Declare the identity file
 file_line { 'Declare identity file':
-  ensure => present,
-  path   => '/home/ubuntu/.ssh/config',
-  line   => 'IdentityFile ~/.ssh/school',
+  path => '/home/vagrant/.ssh/config',
+  line => '  IdentityFile ~/.ssh/school',
 }
