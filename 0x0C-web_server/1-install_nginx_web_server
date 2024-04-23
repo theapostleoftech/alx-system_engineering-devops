@@ -2,12 +2,26 @@
 # A bash script to install nginx on a server
 
 sudo apt-get update
+
 sudo apt-get install -y nginx
 
-echo "Hello World!" > /var/www/html/index.html
+# Start nginx server
+sudo service nginx start
 
-sed -i 's/listen 80 default_server;/listen 80 default_server;\n\tlocation \/ {\n\t\troot \/var/www/html;\n\t\tindex index.html;\n\t}/' /etc/nginx/sites-available/default
+# enable firewall
+sudo ufw allow 'Nginx HTTP'
 
-nginx -s reload
+sudo ufw enabled
 
-nginx -t
+# Give ownership permission to files
+sudo chown -R "$USER":$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# Backup index file
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Create the index file
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
+# Restart nginx server
+sudo service nginx restart
