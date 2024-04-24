@@ -5,50 +5,34 @@ sudo apt-get update
 
 sudo apt-get install -y nginx
 
-rm /etc/nginx/sites-enabled/default
+sudo ufw allow 'Nginx HTTP'
+
+sudo mkdir -p /var/www/html
+
+sudo chmod -R 755 /var/www
+
+echo "Hello World!" > /var/www/html/index.html
+
+#rm /etc/nginx/sites-enabled/default
 
 echo "server {
    listen 80 default_server;
    listen [::]:80 default_server;
 
    root /var/www/html;
-   index index.html;
+   index index.html index.htm index.nginx-debian.html;
 
    server_name _;
 
    location / {
-   try_files \$uri | $uri/ =404;
-  }
+       try_files \$uri \$uri/ =404;
+   }
 
-  location /redirect_me {
-  return 301 http://the10x.tech
-}" > /etc/nginx/sites_available/530643-web-01
+   location /redirect_me {
+       return 301 https://the10xwebhost.com;
+   }
+}" > /etc/nginx/sites_available/default
 
-ln -s /etc/nginx/sites-available/web-01 /etc/nginx/sites-enabled/
-
-echo "Hello World!" > /var/www/html/index.html
+sudo ln -s /etc/nginx/sites-available/default  /etc/nginx/sites-enabled/
 
 sudo service nginx restart
-
-
-# Start nginx server
-#sudo service nginx start
-
-# enable firewall
-#sudo ufw allow 'Nginx HTTP'
-
-#sudo ufw enable
-
-# Give user permissions
-#sudo chown -R "$USER:$USER" /var/www/html
-#sudo chmod -R 755 /var/www
-
-# Back up index file
-#cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-
-# Write Hello World the index file
-#echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
-
-# Restart nginx
-#sudo service nginx restart
-
