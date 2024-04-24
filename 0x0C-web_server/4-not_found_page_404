@@ -12,7 +12,7 @@ sudo mkdir -p /var/www/html
 sudo chmod -R 755 /var/www
 
 echo "Hello World!" > /var/www/html/index.html
-echo "Ceci n'est pas une page" > /var/www/html/404.html
+echo -e "Ceci n\x27est pas une page" > /var/www/error/404.html
 
 #rm /etc/nginx/sites-enabled/default
 
@@ -35,7 +35,7 @@ echo "server {
 
    error_page 404 /404.html;
    location = /404.html {
-   root /usr/share/nginx/html;
+   root /var/www/error/;
    internal;
 }
 
