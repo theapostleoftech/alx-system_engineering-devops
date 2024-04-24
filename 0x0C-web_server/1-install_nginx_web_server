@@ -11,17 +11,17 @@ sudo service nginx start
 # enable firewall
 sudo ufw allow 'Nginx HTTP'
 
-sudo ufw enabled
+sudo ufw enable
 
-# Give ownership permission to files
-sudo chown -R "$USER":$USER" /var/www/html
+# Give user permissions
+sudo chown -R "$USER:$USER" /var/www/html
 sudo chmod -R 755 /var/www
 
-# Backup index file
+# Back up index file
 cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
-# Create the index file
+# Write Hello World the index file
 echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
-# Restart nginx server
+# Restart nginx
 sudo service nginx restart
