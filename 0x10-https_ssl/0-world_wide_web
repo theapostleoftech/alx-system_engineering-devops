@@ -1,32 +1,44 @@
 #!/usr/bin/env bash
-# A script to display information about subdomains
 
-# Get subdomain information
-get_subdomain_info() {
-	domain=$1
-	subdomain=${2:-}
-
-	if [ -n "$subdomain" ]; then
-		record_type=$(dig "$subdomain.$domain" +short | awk '{print $4}')
-		destination=$(dig "$subdomain.$domain" +short | awk '{print $5}')
-		printf "The subdomain %s is a %s record and points to %s\n" "$subdomain" "$record_type" "$destination"
-	else
-		for sub in www lb-01 web-01 web-02; do
-			record_type=$(dig "$sub.$domain" +short | awk '{print $4}')
-			destination=$(dig "$sub.$domain" +short | awk '{print $5}')
-			printf "The subdomain %s is a %s record and points to %s\n" "$sub" "$record_type" "$destination"
-		done
-	fi
+# Function to display DNS information for a subdomain
+display_dns_info() {
+    local subdomain=$1
+    local domain=$2
+    
+    # Use dig to get DNS information for the subdomain
+    dns_info=$(dig $subdomain.$domain | awk '/ANSWER SECTION/ {getline; print}')
+    
+    # Extract record type and destination IP address
+    record_type=$(echo $dns_info | awk '{print $4}')
+    destination=$(echo $dns_info | awk '{print $5}')
+    
+    # Display the information
+    echo "The subdomain $subdomain is a $record_type record and points to $destination"
 }
 
-if [ -z "$1" ]; then
-	echo "Usage: $0 <domain> [subdomain]"
-	exit 1
+# Main function
+main() {
+    local domain=$1
+    local subdomain=$2
+
+    # If subdomain is not provided, set default subdomains to audit
+    if [ -z "$subdomain" ]; then
+        subdomains=("www" "lb-01" "web-01" "web-02")
+    else
+        # If subdomain is provided, audit only that subdomain
+        subdomains=($subdomain)
+    fi
+    
+    # Iterate over subdomains and display DNS information
+    for sub in "${subdomains[@]}"; do
+        display_dns_info $sub $domain
+    done
+}
+
+# Check if domain argument is provided
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <domain> [<subdomain>]"
+    exit 1
 fi
 
-domain=$1
-subdomain=${2:-}
-
-get_subdomain_info "$domain" "$subdomain"
-
-dig "$domain" | grep -A1 'ANSWER SECTION:' > /dev/null
+main "$@"
