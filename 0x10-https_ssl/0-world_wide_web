@@ -4,7 +4,7 @@
 # Get subdomain information
 get_subdomain_info() {
 	domain=$1
-	subdomain=$2\{2:-;}
+	subdomain=${2:-}
 
 	if [ -n "$subdomain" ]; then
 		record_type=$(dig "$subdomain.$domain" +short | awk '{print $4}')
@@ -17,7 +17,7 @@ get_subdomain_info() {
 			printf "The subdomain %s is a %s record and points to %s\n" "$sub" "$record_type" "$destination"
 		done
 	fi
-#}
+}
 
 if [ -z "$1" ]; then
 	echo "Usage: $0 <domain> [subdomain]"
@@ -25,7 +25,7 @@ if [ -z "$1" ]; then
 fi
 
 domain=$1
-subdomain=$2\{2:-;
+subdomain=${2:-}
 
 get_subdomain_info "$domain" "$subdomain"
 
