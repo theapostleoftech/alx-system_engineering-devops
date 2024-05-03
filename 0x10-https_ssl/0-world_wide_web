@@ -9,7 +9,7 @@ get_subdomain_info() {
 	if [ -n "$subdomain" ]; then
 		record_type=$(dig "$subdomain.$domain" +short | awk '{print $4}')
 		destination=$(dig "$subdomain.$domain" +short | awk '{print $5}')
-		printf "The subdomain %s is a %s record and points to %s\n" "$sub" "$record_type" "$destination"
+		printf "The subdomain %s is a %s record and points to %s\n" "$subdomain" "$record_type" "$destination"
 	else
 		for sub in www lb-01 web-01 web-02; do
 			record_type=$(dig "$sub.$domain" +short | awk '{print $4}')
