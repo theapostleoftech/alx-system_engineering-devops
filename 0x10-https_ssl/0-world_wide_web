@@ -6,11 +6,11 @@ display_dns_info() {
     local domain=$2
     
     # Use dig to get DNS information for the subdomain
-    dns_info=$(dig $subdomain.$domain | awk '/ANSWER SECTION/ {getline; print}')
+    dns_info=$(dig "$subdomain"."$domain" | awk '/ANSWER SECTION/ {getline; print}')
     
     # Extract record type and destination IP address
-    record_type=$(echo $dns_info | awk '{print $4}')
-    destination=$(echo $dns_info | awk '{print $5}')
+    record_type=$(echo "$dns_info" | awk '{print $4}')
+    destination=$(echo "$dns_info" | awk '{print $5}')
     
     # Display the information
     echo "The subdomain $subdomain is a $record_type record and points to $destination"
@@ -26,12 +26,12 @@ main() {
         subdomains=("www" "lb-01" "web-01" "web-02")
     else
         # If subdomain is provided, audit only that subdomain
-        subdomains=($subdomain)
+        subdomains=("$subdomain")
     fi
     
     # Iterate over subdomains and display DNS information
     for sub in "${subdomains[@]}"; do
-        display_dns_info $sub $domain
+        display_dns_info "$sub" "$domain"
     done
 }
 
