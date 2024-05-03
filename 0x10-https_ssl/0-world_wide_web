@@ -4,7 +4,7 @@
 # Get subdomain information
 get_subdomain_info() {
 	domain=$1
-	subdomain=$2
+	subdomain=$2'{2:-}'
 
 	if [ -n "$subdomain" ]; then
 		record_type=$(dig "$subdomain.$domain" +short | awk '{print $4}')
@@ -25,6 +25,6 @@ if [ -z "$1" ]; then
 fi
 
 domain=$1
-subdomain=$2{2:-}
+subdomain=$2'{2:-}'
 
 get_subdomain_info "$domain" "$subdomain"
