@@ -3,20 +3,8 @@
 # sed -i 's/listen [0-9]*;/listen 80 default_server;/' /etc/nginx/sites-available/default
 # sudo service nginx restart
 
-# Install Nginx if it's not already installed
-apt-get update
-apt-get install -y nginx
+new="80 default_server"
+old="8080 default_server"
+sed -i "s/$old/$new/" /etc/nginx/sites-enabled/default
 
-# Backup the default Nginx configuration file
-cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-
-# Open the default Nginx configuration file for editing
-sed -i '/listen 80;/d' /etc/nginx/sites-available/default
-echo "listen 80 default_server;" >> /etc/nginx/sites-available/default
-echo "listen [::]:80 default_server ipv6only=on;" >> /etc/nginx/sites-available/default
-
-# Restart Nginx to apply the new configuration
-sudo service nginx restart
-
-# Check if Nginx is running and listening on port 80 of all active IPv4 IPs
-netstat -tulpn | grep :80
+service nginx restart
