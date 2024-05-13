@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 DEFAULT_FORWARD_POLICY="ACCEPT"
 
 
