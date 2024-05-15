@@ -70,6 +70,6 @@ if [ $? -ne 0 ]; then
 fi
 
 # Remove the MySQL dump file
-rm "$dump_file"
+# rm "$dump_file"
 
 echo "MySQL backup archive '$archive_file' created successfully."
