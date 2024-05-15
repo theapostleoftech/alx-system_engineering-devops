@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# A script to backup all databases on a server
+
+backup_date=$(date +%d-%m-%Y)
+
+dump_file="backup.sql"
+
+archive_file="$backup_date.tar.gz"
+
+mysql_password="$1"
+
+if [ -z "$mysql_password" ]; then
+    echo "Error: MySQL root password needed as an argument."
+    echo "Usage: $0 <mysql_root_password>"
+    exit 1
+fi
+
+mysql_dump -u root --password="$mysql_password" --all-databases > "$dump_file"
+
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to generate MySQL dump."
+    exit 1
+fi
+
+tar -czvf "$archive_file" "$dump_file"
+
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to create compressed archive."
+    exit 1
+fi
+
+
+rm "$dump_file"
+
+echo "MySQL backup archive '$archive_file' created successfully."
