@@ -12,7 +12,7 @@ def get_data_from_api(employee_id):
     result = requests.get(url)
     todos = result.json()
 
-    employee_name = todos[0]['userId'] if todos else 'Unknown'
+    employee_name = todos[0]['name'] if todos else 'Unknown'
     total_tasks = len(todos)
     completed_tasks = [task['title'] for task in todos if task['completed']]
     num_of_compelted_tasks = len(completed_tasks)
