@@ -35,10 +35,9 @@ def get_data_from_api(employee_id):
     return response
 
 
-def export_to_json(todo_data):
-    """This function exports data to json"""
-    csv_filename = f"{employee_id}.json"
-    with open(csv_filename, "w") as json_file:
+def export_to_json(todo_data, employee_id):
+    filename = f"{employee_id}.json"
+    with open(filename, "w") as json_file:
         json.dump(todo_data, json_file, indent=2)
 
 
