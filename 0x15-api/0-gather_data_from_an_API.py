@@ -8,11 +8,15 @@ import sys
 
 
 def get_data_from_api(employee_id):
-    url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
-    result = requests.get(url)
-    todos = result.json()
+    employee_url = f"https://jsonplaceholder.typicode.com/users/userId={employee_id}"
+    todo_url = employee_url + "/todos"
+    employee_response = requests.get(employee_url)
+    todos_response = requests.get(todo_url)
+    employee = employee_response.json()
+    todos = todos_response.json()
 
-    employee_name = todos[0]['name'] if todos else 'Unknown'
+    employee_name = todos[0]['userId'] if todos else 'Unknown'
+    employee_name = employee.get('name')
     total_tasks = len(todos)
     completed_tasks = [task['title'] for task in todos if task['completed']]
     num_of_compelted_tasks = len(completed_tasks)
