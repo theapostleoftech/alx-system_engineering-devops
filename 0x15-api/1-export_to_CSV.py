@@ -23,20 +23,26 @@ def get_data_from_api(employee_id):
     employee_username = employee.get('username')
     todo_data = []
 
-    for todo in todos:
-        task_completed_status = str(todo['completed'])
-        task_title = todo['title']
-        todo_data.append(
-            [employee_id, employee_username, task_completed_status, task_title
-             ])
+    for task in todos:
+        todo = {}
+        todo["USER_ID"] = str(task.get("userId"))
+        todo["USERNAME"] = str(employee_username)
+        todo["TASK_COMPLETED_STATUS"] = str(task.get("completed"))
+        todo["TASK_TITLE"] = str(task.get("title"))
+        todo_data.append(todo)
+        # task_completed_status = str(todo['completed'])
+        # task_title = todo['title']
+        # todo_data.append(
+        #     [employee_id, employee_username, task_completed_status, task_title
+        #      ])
 
-    return todo_data
+    # return todo_data
 
 
 def export_to_csv(todo_data, employee_id):
     csv_filename = f"{employee_id}.csv"
     with open(csv_filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
+        writer = csv.Dictwriter(csvfile)
         writer.writerow(
             [
                 "USER_ID",
