@@ -20,14 +20,14 @@ def get_data_from_api(employee_id):
     employee = employee_response.json()
     todos = todos_response.json()
 
-    employee_name = employee.get('name')
+    employee_username = employee.get('username')
     todo_data = []
 
     for todo in todos:
         task_completed_status = str(todo['completed'])
         task_title = todo['title']
         todo_data.append(
-            [employee_id, employee_name, task_completed_status, task_title
+            [employee_id, employee_username, task_completed_status, task_title
              ])
 
     return todo_data
