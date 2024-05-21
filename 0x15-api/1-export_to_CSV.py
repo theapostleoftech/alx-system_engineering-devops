@@ -34,15 +34,9 @@ def get_data_from_api(employee_id):
 
 def export_to_csv(todo_data, employee_id):
     csv_filename = f"{employee_id}.csv"
+    header = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
     with open(csv_filename, 'w', newline='') as csvfile:
-        writer = csv.Dictwriter(csvfile)
-        writer.writerow(
-            [
-                "USER_ID",
-                "USERNAME",
-                "TASK_COMPLETED_STATUS",
-                "TASK_TITLE"
-                ])
+        writer = csv.Dictwriter(csvfile, fieldnames=header, quoting=csv.QUOTE_ALL)
         writer.writerows(todo_data)
 
 
