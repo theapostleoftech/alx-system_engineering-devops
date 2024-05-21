@@ -30,13 +30,6 @@ def get_data_from_api(employee_id):
         todo["TASK_COMPLETED_STATUS"] = str(task.get("completed"))
         todo["TASK_TITLE"] = str(task.get("title"))
         todo_data.append(todo)
-        # task_completed_status = str(todo['completed'])
-        # task_title = todo['title']
-        # todo_data.append(
-        #     [employee_id, employee_username, task_completed_status, task_title
-        #      ])
-
-    # return todo_data
 
 
 def export_to_csv(todo_data, employee_id):
