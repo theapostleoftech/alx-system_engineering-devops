@@ -3,13 +3,14 @@
 A python script to export data in the CSV format
 """
 
+import csv
 import requests
 import sys
-import csv
 
 
 def get_data_from_api(employee_id):
-    """ This function retrieves data from api
+    """
+    This function retrieves data from api
     and exports it to CSV
     """
     employee_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
@@ -19,7 +20,7 @@ def get_data_from_api(employee_id):
     employee = employee_response.json()
     todos = todos_response.json()
 
-    employee_name = employee.get('name')'
+    employee_name = employee.get('name')
     todo_data = []
 
     for todo in todos:
