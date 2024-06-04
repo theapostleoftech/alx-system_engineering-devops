@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    Retrieves 10 hot posts from the reddit API
+    Retrieve top hot posts
 """
 import requests
 from sys import argv
@@ -22,4 +22,3 @@ def top_ten(subreddit):
     for post in hot_posts_json:
         top_10_posts += post.get("data").get("title") + "\n"
     print(top_10_posts, end="")
-    
