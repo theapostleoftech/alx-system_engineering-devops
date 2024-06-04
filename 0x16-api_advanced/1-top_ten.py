@@ -7,7 +7,7 @@ from sys import argv
 
 
 def top_ten(subreddit):
-    """Get the 10 host posts"""
+    """Get the 10 hot posts"""
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     url += "?limit=10"
     headers = {'user-agent': 'request'}
